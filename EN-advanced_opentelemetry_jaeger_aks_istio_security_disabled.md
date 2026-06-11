@@ -283,13 +283,9 @@ Set variables:
 ```bash
 export OTEL_NS="otel-advanced"
 
-if kubectl get namespace aks-store-state-lab >/dev/null 2>&1; then
-  export APP_NS="aks-store-state-lab"
-else
-  export APP_NS="default"
-fi
+export APP_NS="aks-store-persistence-lab"
 
-export ISTIO_NS="istio-system"
+export ISTIO_NS="aks-istio-system"
 
 echo "Application namespace:   $APP_NS"
 echo "Observability namespace: $OTEL_NS"
