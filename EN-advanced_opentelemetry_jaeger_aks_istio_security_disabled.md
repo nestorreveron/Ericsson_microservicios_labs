@@ -536,6 +536,44 @@ Test without a token:
 curl -i "http://${GATEWAY_IP}"
 ```
 
+```
+cat <<EOF > store-front-istio-ingress.yaml
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: store-front-gateway
+  namespace: ${APP_NS}
+spec:
+  selector:
+    istio: aks-istio-ingressgateway-external
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "*"
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: store-front-vs
+  namespace: ${APP_NS}
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - store-front-gateway
+  http:
+  - route:
+    - destination:
+        host: store-front.${APP_NS}.svc.cluster.local
+        port:
+          number: 80
+EOF
+```
+
+
 Interpretation:
 
 | Result | Meaning |
